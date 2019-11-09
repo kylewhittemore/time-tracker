@@ -31,19 +31,14 @@ function App() {
     let duration;
 
     if (timerActive) {
-      duration = moment.duration(now.diff(startTime))
+      duration = moment.duration(now.diff(startTime)).asSeconds();
+      alertTime(duration)
       setEndTime(now)
       setTimerActive(false)
     } else {
       setStartTime(now)
       setTimerActive(true)
     }
-    if (duration) {
-      duration = duration.asSeconds();
-      alertTime(duration);
-      
-    }
-
   }
 
   return (
