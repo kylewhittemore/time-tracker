@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-export default function TimerForm() {
+export default function TimerForm(props) {
 
     const now = new Date();
     console.log("NOW: ", now)
@@ -30,7 +30,7 @@ export default function TimerForm() {
             </Form.Group>
             <Form.Group as={Row}>
                 <Col sm={{ span: 10, offset: 2 }}>
-                    <Button type="submit">Create Timer</Button>
+                    <Button onClick={props.handleTimerEvent}>Create Timer</Button>
                 </Col>
             </Form.Group>
         </Form>
