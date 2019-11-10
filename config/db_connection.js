@@ -8,4 +8,12 @@ const db_connection = mysql.createConnection({
     database: "timer_db"
 })
 
+db_connection.connect(function(err) {
+    if (err) {
+        console.error("error connecting: ", err.stack);
+        return;
+    }
+    console.log("connected as id ", db_connection.threadId);
+})
+
 module.exports = db_connection;
