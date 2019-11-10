@@ -6,9 +6,6 @@ import Col from 'react-bootstrap/Col';
 
 export default function TimerForm(props) {
 
-    const now = new Date();
-    console.log("NOW: ", now)
-
     return (
         <Form>
             <Form.Group as={Row}controlId="exampleForm.ControlSelect1">

@@ -1,44 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import axios from 'axios'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import TimerForm from './components/TimerForm';
 import TimerDisplay from './components/TimerDisplay';
-import moment from 'moment'
+import moment from 'moment';
 
 function App() {
 
   const [timerActive, setTimerActive] = useState(false);
   const [startTime, setStartTime] = useState();
   const [endTime, setEndTime] = useState();
-  const [activeTimer, setActivtimer] = useState();
-
-  const alertTime = (time) => {
-    let timeMessage;
-
-    if (timerActive) {
-      timeMessage = "End time: " + time;
-    }
-    else {
-      timeMessage = "Start time: " + time;
-    }
-    alert(timeMessage)
-  }
 
   const handleTimerEvent = () => {
     let now = new moment()
-    let duration;
-
     if (timerActive) {
-      duration = moment.duration(now.diff(startTime)).asSeconds();
-      alertTime(duration)
-      setEndTime(now)
+      setEndTime(now._d)
       setTimerActive(false)
+      postTimerEvent(now._d)
     } else {
-      setStartTime(now)
+      setStartTime(now._d)
       setTimerActive(true)
     }
+  }
+
+  async function postTimerEvent(now) {
+    //TODO: post the timer event object to the api.
+    const timerEvent = {
+      activity: "web development",
+      startTime: startTime,
+      endTime: now
+    }
+    let result = await axios.post('/events/create', timerEvent)
+    console.log(result)
   }
 
   return (
@@ -49,7 +45,7 @@ function App() {
             {timerActive ?
               <TimerDisplay
                 handleTimerEvent={handleTimerEvent}
-                activeTimer={activeTimer}
+                startTime={startTime}                
               />
               :
               <TimerForm
