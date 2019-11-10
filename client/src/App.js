@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import axios from 'axios'
 import Container from 'react-bootstrap/Container';
@@ -12,17 +12,6 @@ function App() {
 
   const [timerActive, setTimerActive] = useState(false);
   const [startTime, setStartTime] = useState();
-  const [activities, setActivities] = useState([]);
-
-  // useEffect(() => {
-  //   async function getActivities() {
-  //     const result = await axios.get('/activities/all');
-  //     console.log(result)
-  //     // setActivities(result.data)
-  //     return result;
-  //   }
-  //   getActivities();
-  // }, [])
 
   const handleTimerEvent = () => {
     let now = new moment()
@@ -60,7 +49,6 @@ function App() {
               :
               <TimerForm
                 handleTimerEvent={handleTimerEvent}
-                // activities={activities}
               />}
           </Col>
         </Row>

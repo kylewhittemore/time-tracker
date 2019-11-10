@@ -26,7 +26,7 @@ export default function TimerForm(props) {
                     <Form.Control as="select">
                         {activities.map(activity => {
                             return (
-                                <option id={activity.id}>{activity.activity_name}</option>)}
+                                <option key={activity.id}>{activity.activity_name}</option>)}
                             )}
                     </Form.Control>
                 </Col>
