@@ -12,12 +12,21 @@ function App() {
 
   const [timerActive, setTimerActive] = useState(false);
   const [startTime, setStartTime] = useState();
-  const [endTime, setEndTime] = useState();
+  const [activities, setActivities] = useState([]);
+
+  // useEffect(() => {
+  //   async function getActivities() {
+  //     const result = await axios.get('/activities/all');
+  //     console.log(result)
+  //     // setActivities(result.data)
+  //     return result;
+  //   }
+  //   getActivities();
+  // }, [])
 
   const handleTimerEvent = () => {
     let now = new moment()
     if (timerActive) {
-      setEndTime(now._d)
       setTimerActive(false)
       postTimerEvent(now._d)
     } else {
@@ -27,7 +36,6 @@ function App() {
   }
 
   async function postTimerEvent(now) {
-    //TODO: post the timer event object to the api.
     const timerEvent = {
       activity: "web development",
       startTime: startTime,
@@ -36,6 +44,8 @@ function App() {
     let result = await axios.post('/events/create', timerEvent)
     console.log(result)
   }
+
+
 
   return (
     <div className="App">
@@ -50,6 +60,7 @@ function App() {
               :
               <TimerForm
                 handleTimerEvent={handleTimerEvent}
+                // activities={activities}
               />}
           </Col>
         </Row>

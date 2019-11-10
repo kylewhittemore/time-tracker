@@ -15,9 +15,7 @@ export default function TimerDisplay(props) {
     }, []);
 
     function makeTwoDigit(num) {
-        let numString;
-        numString = (num < 10) ? `0${num}` : num.toString();
-        return numString;
+        return (num < 10) ? `0${num}` : num.toString();
     }
 
     function updateTimerDisplay() {
