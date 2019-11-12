@@ -3,19 +3,33 @@ import axios from 'axios'
 import TimerForm from './TimerForm';
 import TimerDisplay from './TimerDisplay';
 import moment from 'moment';
+import timerLogic from './timerLogic'
 
 function Timer() {
 
   const [timerActive, setTimerActive] = useState(false);
   const [startTime, setStartTime] = useState();
-  const [formData, setFormData] = useState({ activity: "family time", notes: "" });
+  const [formData, setFormData] = useState({});
   const [activities, setActivities] = useState([]);
 
   useEffect(() => {
+
+    function checkTimer() {
+      const timer = localStorage.getItem("timer")
+      if (timer) {
+        console.log("whooooooeeeee")
+      }
+      else {
+        console.log("NO TIMER")
+      }
+    }
+
     async function getActivities() {
       const result = await axios.get('/activities/all');
       setActivities(result.data)
+      setFormData({ activity: result.data[0].activity_name })
     }
+    checkTimer();
     getActivities();
   }, [])
 
@@ -28,6 +42,13 @@ function Timer() {
     } else {
       setStartTime(now)
       setTimerActive(true)
+
+      const timer = {
+        activity: formData.activity,
+        startTime: now,
+        notes: formData.notes
+      }
+      timerLogic.initiateTimer(timer)
     }
   }
 
