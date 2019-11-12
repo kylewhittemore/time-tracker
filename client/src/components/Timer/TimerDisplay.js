@@ -6,23 +6,22 @@ export default function TimerDisplay(props) {
 
     const [timer, setTimer] = useState("00:00:00");
 
-    useEffect((props) => {
-
-        function updateTimerDisplay() {
-            const now = new moment();
-            const diff = moment.duration(now.diff(props.startTime))
-            const sec = makeTwoDigit(Math.floor(diff.seconds()))
-            const min = makeTwoDigit(Math.floor(diff.minutes()))
-            const hrs = makeTwoDigit(Math.floor(diff.hours()))
-
-            setTimer(`${hrs}:${min}:${sec}`)
-        }
-
+    useEffect(() => {
         const interval = setInterval(() => {
             updateTimerDisplay();
         }, 1000);
         return () => clearInterval(interval);
     }, []);
+
+    function updateTimerDisplay() {
+        const now = new moment();
+        const diff = moment.duration(now.diff(props.startTime))
+        const sec = makeTwoDigit(Math.floor(diff.seconds()))
+        const min = makeTwoDigit(Math.floor(diff.minutes()))
+        const hrs = makeTwoDigit(Math.floor(diff.hours()))
+
+        setTimer(`${hrs}:${min}:${sec}`)
+    }
 
     function makeTwoDigit(num) {
         return (num < 10) ? `0${num}` : num.toString();

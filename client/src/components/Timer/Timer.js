@@ -38,7 +38,8 @@ function Timer() {
       endTime: now,
       notes: formData.notes
     }
-    axios.post('/events/create', timerEvent)
+    let result = await axios.post('/events/create', timerEvent)
+    console.log(result)
   }
 
   return (
