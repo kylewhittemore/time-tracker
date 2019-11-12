@@ -13,8 +13,9 @@ timerEventsRouter.post('/events/create', (req, res) => {
     let activity = req.body.activity;
     let startTime = req.body.startTime;
     let endTime = req.body.endTime;
+    let notes = req.body.notes
 
-    let queryString = `insert into timer_events (activity, timer_start, timer_end) values ("${activity}", "${startTime}", "${endTime}");`
+    let queryString = `insert into timer_events (activity, timer_start, timer_end, notes) values ("${activity}", "${startTime}", "${endTime}", "${notes}");`
     db_connection.query(queryString, (err, result) => {
         if (err) throw err;
         res.json(result)

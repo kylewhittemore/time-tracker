@@ -31,7 +31,7 @@ export default function TimerDisplay(props) {
     return (
 
         <div>
-            <h2>Activity being timed</h2>
+            <h2>{props.activity}</h2>
             <h1 id="timer">{timer}</h1>
             <Button onClick={props.handleTimerEvent}>Stop</Button>
         </div>

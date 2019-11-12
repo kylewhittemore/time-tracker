@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios'
 import Container from 'react-bootstrap/Container';
@@ -12,30 +12,44 @@ function App() {
 
   const [timerActive, setTimerActive] = useState(false);
   const [startTime, setStartTime] = useState();
+  const [formData, setFormData] = useState({ activity: "family time", notes: "" });
+  const [activities, setActivities] = useState([]);
+
+  useEffect(() => {
+    async function getActivities() {
+      const result = await axios.get('/activities/all');
+      // console.log(result)
+      setActivities(result.data)
+    }
+    getActivities();
+  }, [])
 
   const handleTimerEvent = () => {
-    let now = new moment()
+    let now = new moment()._d
     if (timerActive) {
       setTimerActive(false)
-      postTimerEvent(now._d)
+      postTimerEvent(now)
+
     } else {
-      setStartTime(now._d)
+      setStartTime(now)
       setTimerActive(true)
     }
   }
 
   async function postTimerEvent(now) {
     const timerEvent = {
-      activity: "web development",
+      activity: formData.activity,
       startTime: startTime,
-      endTime: now
+      endTime: now,
+      notes: formData.notes
     }
+    console.log("timerEvent: ", timerEvent)
     let result = await axios.post('/events/create', timerEvent)
     console.log(result)
   }
 
 
-
+  console.log("formdata: ", formData)
   return (
     <div className="App">
       <Container fluid={true}>
@@ -44,11 +58,15 @@ function App() {
             {timerActive ?
               <TimerDisplay
                 handleTimerEvent={handleTimerEvent}
-                startTime={startTime}                
+                startTime={startTime}
+                activity={formData.activity}
               />
               :
               <TimerForm
                 handleTimerEvent={handleTimerEvent}
+                formData={formData}
+                setFormData={setFormData}
+                activities={activities}
               />}
           </Col>
         </Row>
