@@ -8,7 +8,6 @@ export default function TimerDisplay(props) {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log('interval running');
             updateTimerDisplay();
         }, 1000);
         return () => clearInterval(interval);
@@ -17,6 +16,7 @@ export default function TimerDisplay(props) {
     function makeTwoDigit(num) {
         return (num < 10) ? `0${num}` : num.toString();
     }
+    
     function updateTimerDisplay() {
         const now = new moment();
         let diff = moment.duration(now.diff(props.startTime))
