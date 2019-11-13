@@ -28,7 +28,7 @@ export default function TimerForm(props) {
                 <Col sm={10}>
                     <Form.Control name="activity" as="select" onChange={handleInputChange}>
                         {props.activities.map(activity => {
-                            return (<option key={activity.id}>{activity.activity_name}</option>)
+                            return (<option value={activity.activity_name} key={activity.id}>{activity.activity_name}</option>)
                         })}
                     </Form.Control>
                 </Col>

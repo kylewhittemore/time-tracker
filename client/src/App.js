@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Timer from './components/Timer/Timer.js';
 
 function App() {
+
     return (
         <div>
             <Container fluid={true}>
