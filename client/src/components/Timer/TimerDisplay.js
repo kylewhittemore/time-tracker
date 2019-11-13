@@ -7,6 +7,7 @@ export default function TimerDisplay(props) {
     const [timer, setTimer] = useState("00:00:00");
 
     useEffect(() => {
+        updateTimerDisplay();
         const interval = setInterval(() => {
             updateTimerDisplay();
         }, 1000);

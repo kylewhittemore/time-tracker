@@ -3,7 +3,6 @@ import axios from 'axios'
 import TimerForm from './TimerForm';
 import TimerDisplay from './TimerDisplay';
 import moment from 'moment';
-import timerLogic from './timerLogic'
 
 function Timer() {
 
@@ -13,29 +12,33 @@ function Timer() {
   const [activities, setActivities] = useState([]);
 
   useEffect(() => {
-
-    function checkTimer() {
-      const timer = localStorage.getItem("timer")
+    async function checkTimer() {
+      const timer = JSON.parse(localStorage.getItem("timer"))
       if (timer) {
-        console.log("whooooooeeeee")
+        setStartTime(timer.startTime)
+        setFormData({
+          activity: timer.activity,
+          startTime: timer.startTime,
+          notes: timer.notes
+        })
+        setTimerActive(true)
       }
       else {
-        console.log("NO TIMER")
+        getActivities();
       }
     }
-
     async function getActivities() {
       const result = await axios.get('/activities/all');
       setActivities(result.data)
       setFormData({ activity: result.data[0].activity_name })
     }
-    checkTimer();
-    getActivities();
-  }, [])
+    checkTimer()
+  }, [timerActive])
 
   const handleTimerEvent = () => {
     let now = new moment()._d
     if (timerActive) {
+      localStorage.clear("timer")
       setTimerActive(false)
       postTimerEvent(now)
 
@@ -48,17 +51,19 @@ function Timer() {
         startTime: now,
         notes: formData.notes
       }
-      timerLogic.initiateTimer(timer)
+      localStorage.setItem("timer", JSON.stringify(timer))
     }
   }
 
   async function postTimerEvent(now) {
+    console.log("post Timer formData: ", formData)
     const timerEvent = {
       activity: formData.activity,
-      startTime: startTime,
+      startTime: formData.startTime,
       endTime: now,
       notes: formData.notes
     }
+    setFormData({ activity: "coding", notes: "" })
     let result = await axios.post('/events/create', timerEvent)
     console.log(result)
   }
