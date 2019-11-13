@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import TimerForm from './TimerForm';
 import TimerDisplay from './TimerDisplay';
+import NewActivityModal from './NewActivityModal';
 import moment from 'moment';
 
 function Timer() {
@@ -10,6 +11,12 @@ function Timer() {
   const [startTime, setStartTime] = useState();
   const [formData, setFormData] = useState({});
   const [activities, setActivities] = useState([]);
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 
   useEffect(() => {
     async function checkTimer() {
@@ -66,10 +73,15 @@ function Timer() {
     setFormData({ activity: "coding", notes: "" })
     let result = await axios.post('/events/create', timerEvent)
     console.log(result)
+    handleShow()
   }
 
   return (
     <div>
+      <NewActivityModal 
+        show={show}
+        handleClose={handleClose}
+        handleShow={handleShow} />
       {timerActive ?
         <TimerDisplay
           handleTimerEvent={handleTimerEvent}
